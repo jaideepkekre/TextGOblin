@@ -1,4 +1,4 @@
-package main
+package textgoblin
 
 import (
 	"encoding/json"
