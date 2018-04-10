@@ -1,4 +1,4 @@
-package ss
+package main
 
 import (
 	"strings"
