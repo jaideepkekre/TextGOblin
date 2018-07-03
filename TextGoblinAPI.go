@@ -5,13 +5,14 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/gorilla/mux"
 )
 
 func RunServer() {
 	router := mux.NewRouter()
-	router.HandleFunc("/people", processData).Methods("POST")
+	router.HandleFunc("/classify", processData).Methods("POST")
 	log.Fatal(http.ListenAndServe(":8001", router))
 }
 
@@ -28,20 +29,22 @@ type transaction struct {
 
 func processData(w http.ResponseWriter, r *http.Request) {
 	body, _ := ioutil.ReadAll(r.Body)
-
+	println("Request Recieved!")
 	req := message{}
 	json.Unmarshal([]byte(body), &req)
 	tr := transaction{}
 	tr.Request = req
-	tr.Response=tr.getMatches(req.Query, req.StandardCategories)
+	tr.Response = tr.getMatches(req.Query, req.StandardCategories)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(200)
+	time.Sleep(100 * time.Millisecond)
+	println("Response Created!")
 	w.Write([]byte(tr.Response))
 
 }
 
 //GetMatches returns the scores for each standard category
-func (tr transaction) getMatches(inputItem string, standardItems []string)string {
+func (tr transaction) getMatches(inputItem string, standardItems []string) string {
 
 	mp := Match{}
 	return mp.MatchProcessor(inputItem, standardItems)
