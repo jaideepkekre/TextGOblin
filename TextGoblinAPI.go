@@ -37,7 +37,7 @@ func processData(w http.ResponseWriter, r *http.Request) {
 	tr.Response = tr.getMatches(req.Query, req.StandardCategories)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(200)
-	time.Sleep(100 * time.Millisecond)
+	time.Sleep(1000 * time.Millisecond)
 	println("Response Created!")
 	w.Write([]byte(tr.Response))
 
