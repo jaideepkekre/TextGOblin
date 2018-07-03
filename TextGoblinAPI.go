@@ -50,7 +50,7 @@ func processData(w http.ResponseWriter, r *http.Request) {
 			}
 		}()
 	}
-	time.Sleep(time.Second * 1)
+	time.Sleep(time.Millisecond * 100)
 	close(done)
 	println("Response Created!")
 	w.Write([]byte(tr.Response))
