@@ -5,8 +5,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"runtime"
-	"time"
 
 	"github.com/gorilla/mux"
 )
@@ -38,20 +36,20 @@ func processData(w http.ResponseWriter, r *http.Request) {
 	tr.Response = tr.getMatches(req.Query, req.StandardCategories)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(200)
-	done := make(chan int)
-	for i := 0; i < runtime.NumCPU(); i++ {
-		go func() {
-			for {
-				select {
-				case <-done:
-					return
-				default:
-				}
-			}
-		}()
-	}
-	time.Sleep(time.Millisecond * 100)
-	close(done)
+	// done := make(chan int)
+	// for i := 0; i < runtime.NumCPU(); i++ {
+	// 	go func() {
+	// 		for {
+	// 			select {
+	// 			case <-done:
+	// 				return
+	// 			default:
+	// 			}
+	// 		}
+	// 	}()
+	// }
+	// time.Sleep(time.Millisecond * 2)
+	// close(done)
 	println("Response Created!")
 	w.Write([]byte(tr.Response))
 
